@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  redis-master:
+    image: redis:7.2
+    container_name: redis-master
+    command: "redis-server --port 7001 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes"
+    ports:
+      - "7001:7001"
+    networks:
+      - redis-net
+
+  redis-replica-1:
+    image: redis:7.2
+    container_name: redis-replica-1
+    command: "redis-server --port 7002 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes"
+    ports:
+      - "7002:7002"
+    networks:
+      - redis-net
+
+  redis-replica-2:
+    image: redis:7.2
+    container_name: redis-replica-2
+    command: "redis-server --port 7003 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes"
+    ports:
+      - "7003:7003"
+    networks:
+      - redis-net
+
+networks:
+  redis-net:
+    driver: bridge
