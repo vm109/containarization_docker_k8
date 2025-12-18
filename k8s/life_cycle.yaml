@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s_lifecycle
+  name: k8s_lifecycle
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: k8s_lifecycle
+    spec:
+      initContainers:
+      - name: init
+        image: busybox
+        command: ['sh','-c', 'sleep 10']
+      containers:
+      - image: busybox:latest
+        name: lifecycle-container
+        command: ['sh', '-c', 'echo $(date +%s): Running >> /timing && echo "the app is running!" && /bin/sleep 120']
+        readinessProbe:
+          exec:
+            command: ['sh', '-c', 'echo $(date +s%)']
+          initialDelaySeconds:
+        livenessProbe:
+          exec:
+            command:
+          initialDelaySeconds:
+          timeoutSeconds:
+        lifecycle:
+
+status: {}
