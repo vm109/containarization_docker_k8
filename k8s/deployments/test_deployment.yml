@@ -2,20 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: test-deployment
-  name: test-deployment
+    app: task-tracker
+  name: task-tracker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: test-deployment
+      app: task-tracker
   template:
     metadata:
       labels:
-        app: test-deployment
+        app: task-tracker
+        env: minikube
     spec:
       containers:
-      - image: busybox:latest
-        name: busybox
+      - image: task_tracker:latest
+        name: task-tracker-dep-cntr
         resources: {}
+        imagePullPolicy: Never
 status: {}
